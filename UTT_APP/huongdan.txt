@@ -1,0 +1,60 @@
+Bước 1: Mua Domain và Trỏ Nameservers (Namecheap)
+Đây là bước "khai thông" liên lạc giữa nhà cung cấp tên miền và bộ não quản lý DNS.
+
+Tại Namecheap: Vào Domain List > Manage (tên miền mới).
+
+Mục Nameservers: Chọn Custom DNS.
+
+Điền Nameservers: Lấy 2 dòng từ Cloudflare (thường là gordon.ns.cloudflare.com và kimora.ns.cloudflare.com).
+
+Lưu ý: Sau khi nhấn tích xanh, hãy đợi Cloudflare báo "Active" mới làm bước tiếp theo.
+
+Bước 2: Thiết lập Docker cho dự án mới
+Để không bị đụng hàng với dự án Gamification cũ, Hải cần đặt tên container khác đi.
+
+File docker-compose.yml dự án mới:
+
+Sửa tên service (ví dụ: web2, db2).
+
+Sửa tên container (ví dụ: container-web-duan2, container-db-duan2).
+
+Port: Hải không cần mở port ra ngoài (ví dụ 8080:80) vì mình sẽ dùng Tunnel đi thẳng vào port nội bộ 80.
+
+Bước 3: Cấu hình Cloudflare Tunnel (Đa dự án)
+Hải không cần tạo Tunnel mới. Một Tunnel có thể gánh được hàng chục dự án khác nhau.
+
+Vào Cloudflare Dashboard > Zero Trust > Networks > Tunnels.
+
+Chọn cái Tunnel cũ Hải đang dùng cho Gamification > Edit.
+
+Sang tab Public Hostname > Nhấn Add a public hostname:
+
+Subdomain: (Để trống nếu là domain mới).
+
+Domain: Chọn tên miền mới của Hải.
+
+Service Type: HTTP.
+
+URL: Nhập tên container web của dự án mới (ví dụ: container-web-duan2:80).
+
+Tab HTTP Settings: Bật No TLS Verify lên ON.
+
+Bước 4: Cấu hình config.php cho dự án mới (Nếu là Moodle)
+Hải copy cấu hình chuẩn này để tránh lỗi vòng lặp chuyển hướng:
+
+PHP
+$CFG->wwwroot   = 'https://duan2.ink'; // Tên miền mới của Hải
+$CFG->sslproxy  = true;                // Bắt buộc để nhận diện HTTPS từ Cloudflare
+$CFG->reverseproxy = false;            // Nếu chạy ổn thì để false, nếu lỗi 500 thì xóa hẳn dòng này
+Bước 5: Bật tính năng cho App & Email (Nếu cần)
+Để dự án mới cũng xịn như dự án đầu:
+
+App Mobile: Vào Site administration > Advanced features > Tích chọn Enable web services for mobile devices.
+
+Cho chơi Game trong App: Vào HTTP security > Tích chọn Allow frame embedding.
+
+Xác thực Email:
+
+Dùng lại App Password 16 ký tự cũ của Gmail (không cần tạo cái mới).
+
+Vào Outgoing mail configuration điền smtp.gmail.com:587 và mã 16 ký tự đó.

@@ -1,0 +1,82 @@
+Timestamp,Track_ID,Violation_Type
+2026-05-09 12:32:29,1,Thiếu Vest
+2026-05-09 12:32:46,201,Thiếu Helmet & Vest
+2026-05-09 12:33:28,1,Thiếu Vest
+2026-05-09 12:33:43,201,Thiếu Helmet & Vest
+2026-05-09 12:34:44,1,Thiếu Vest
+2026-05-09 12:35:19,1,Thiếu Vest
+2026-05-09 12:35:35,201,Thiếu Helmet & Vest
+2026-05-09 12:45:57,1,Thiếu Vest
+2026-05-09 12:46:12,201,Thiếu Helmet & Vest
+2026-05-09 19:34:27,1,Thiếu Vest
+2026-05-09 19:34:43,238,Thiếu Helmet & Vest
+2026-05-09 19:39:35,1,Thiếu Vest
+2026-05-09 20:08:30,1,Thiếu Vest
+2026-05-09 20:08:46,238,Thiếu Helmet & Vest
+2026-05-09 20:51:42,1,Thiếu Vest
+2026-05-09 20:51:46,131,Thiếu Helmet
+2026-05-09 20:51:47,135,Thiếu Helmet & Vest
+2026-05-09 20:51:48,159,Thiếu Helmet & Vest
+2026-05-09 20:51:51,221,Thiếu Helmet
+2026-05-09 20:51:55,1,Thiếu Vest
+2026-05-09 20:51:56,235,Thiếu Helmet & Vest
+2026-05-09 20:51:57,238,Thiếu Helmet
+2026-05-09 20:51:57,243,Thiếu Helmet & Vest
+2026-05-09 20:51:57,247,Thiếu Helmet & Vest
+2026-05-09 20:51:58,251,Thiếu Helmet & Vest
+2026-05-09 20:52:01,316,Thiếu Helmet & Vest
+2026-05-09 20:52:02,322,Thiếu Helmet & Vest
+2026-05-09 20:52:03,328,Thiếu Helmet
+2026-05-09 20:52:03,360,Thiếu Vest
+2026-05-09 20:52:06,431,Thiếu Helmet & Vest
+2026-05-09 20:52:06,433,Thiếu Helmet & Vest
+2026-05-09 20:52:12,487,Thiếu Helmet
+2026-05-09 20:52:14,501,Thiếu Helmet
+2026-05-09 20:52:14,518,Thiếu Vest
+2026-05-09 20:52:17,555,Thiếu Helmet & Vest
+2026-05-09 20:52:18,567,Thiếu Helmet & Vest
+2026-05-09 20:52:20,586,Thiếu Helmet & Vest
+2026-05-09 20:52:24,667,Thiếu Helmet & Vest
+2026-05-09 20:52:26,674,Thiếu Helmet
+2026-05-09 20:52:26,678,Thiếu Helmet
+2026-05-09 20:52:27,686,Thiếu Helmet & Vest
+2026-05-09 20:52:27,692,Thiếu Helmet & Vest
+2026-05-09 20:52:28,717,Thiếu Helmet & Vest
+2026-05-09 20:52:29,733,Thiếu Helmet & Vest
+2026-05-09 20:52:31,754,Thiếu Vest
+2026-05-09 20:54:41,1,Thiếu Vest
+2026-05-09 20:54:45,131,Thiếu Helmet & Vest
+2026-05-09 20:54:50,221,Thiếu Helmet
+2026-05-09 20:54:54,1,Thiếu Vest
+2026-05-09 20:54:56,238,Thiếu Vest
+2026-05-09 20:54:56,243,Thiếu Helmet & Vest
+2026-05-09 20:55:03,360,Thiếu Vest
+2026-05-09 20:55:16,555,Thiếu Helmet & Vest
+2026-05-09 20:55:27,717,Thiếu Helmet & Vest
+2026-05-09 20:55:30,754,Thiếu Vest
+2026-05-09 21:02:36,1,Thiếu Vest
+2026-05-09 21:02:40,11,Thiếu Helmet & Vest
+2026-05-09 21:02:55,1,Thiếu Vest
+2026-05-09 21:02:55,9,Thiếu Vest
+2026-05-09 21:02:55,14,Thiếu Vest
+2026-05-09 21:03:04,45,Thiếu Helmet & Vest
+2026-05-09 21:03:08,1,Thiếu Vest
+2026-05-09 21:03:10,44,Thiếu Vest
+2026-05-09 21:03:10,59,Thiếu Helmet & Vest
+2026-05-09 21:03:43,208,Thiếu Vest
+2026-05-10 19:58:32,10,Thiếu Vest
+2026-05-10 19:58:32,17,Thiếu Helmet & Vest
+2026-05-10 19:58:43,52,Thiếu Helmet
+2026-05-10 19:58:47,54,Thiếu Helmet & Vest
+2026-05-10 19:58:55,104,Thiếu Vest
+2026-05-10 19:58:57,119,Thiếu Vest
+2026-05-10 19:59:08,149,Thiếu Vest
+2026-05-10 19:59:18,197,Thiếu Helmet & Vest
+2026-05-10 20:52:40,1,No Vest
+2026-05-10 20:52:40,9,No Vest
+2026-05-10 20:52:40,14,No Vest
+2026-05-10 20:52:50,45,No Helmet & Vest
+2026-05-10 20:52:54,1,No Vest
+2026-05-10 20:52:56,44,No Vest
+2026-05-10 20:52:56,59,No Helmet & Vest
+2026-05-10 20:53:27,208,No Vest

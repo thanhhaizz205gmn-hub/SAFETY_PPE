@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+ultralytics
+opencv-python-headless
+python-multipart
+lap>=0.5.12
+onnx>=1.16.0
+onnxruntime>=1.18.0

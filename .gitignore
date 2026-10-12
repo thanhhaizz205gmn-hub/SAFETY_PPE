@@ -1,0 +1,31 @@
+# Byte-compiled
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Virtual environments
+venv/
+env/
+.env
+
+# Large Video files (>20MB)
+*.mp4
+*.avi
+*.mov
+temp_videos/
+test_video/
+**/temp_videos/
+
+# Datasets and training caches
+data/
+data_filtered/
+runs/
+
+# Large SQLite database files (>50MB)
+*.db
+*.sqlite3
+
+# OS / Editor
+.DS_Store
+Thumbs.db
+.vscode/

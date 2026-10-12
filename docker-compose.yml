@@ -1,0 +1,22 @@
+services:
+  utt-safety-app:
+    container_name: utt-safety-container
+    build:
+      context: ./UTT_APP
+      dockerfile: Dockerfile
+    image: utt-safety-app:latest
+    ports:
+      - "5001:5001"
+    environment:
+      - TZ=Asia/Ho_Chi_Minh
+    volumes:
+      - ./UTT_APP:/app
+      - ./UTT_APP/temp_videos:/app/temp_videos
+      - ./UTT_APP/models:/app/models
+    networks:
+      - utt_app_safety-net
+    restart: always
+
+networks:
+  utt_app_safety-net:
+    external: true

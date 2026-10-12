@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="vi" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    <title>UTT AI SAFETY - COMMAND CENTER</title>
+    <link rel="stylesheet" href="css/theme_v13.css?v=15.7">
+    <script src="src/core_v13.js?v=15.7" defer></script>
+    <link rel="manifest" href="manifest.json?v=3.6">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="UTT AI">
+    <link rel="apple-touch-icon" href="assets/logo.png">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        (async () => {
+            try {
+                if ('serviceWorker' in navigator) {
+                    const regs = await navigator.serviceWorker.getRegistrations();
+                    await Promise.all(regs.map((reg) => reg.unregister()));
+                }
+                if ('caches' in window) {
+                    const keys = await caches.keys();
+                    await Promise.all(keys.map((key) => caches.delete(key)));
+                }
+            } catch (e) {
+                console.warn('cache cleanup skipped', e);
+            }
+        })();
+    </script>
+</head>
+<body>
+    <div id="app">
+        <header class="app-header glass">
+            <div class="header-left">
+                <img src="assets/logo.png" alt="UTT Logo" class="app-logo" onerror="this.src='logo.png'; this.onerror=null;">
+                <div class="brand-text">
+                    <h1>UTT AI SAFETY <span style="font-size:0.7rem; color:var(--primary); opacity:0.7;">v15.7</span></h1>
+                    <div class="yolo-status">
+                        <span class="status-dot pulse"></span>
+                        <span id="yolo-status-text">SYSTEM ACTIVE</span>
+                    </div>
+                    <div id="runtime-status-text" style="font-size:0.62rem; color:var(--text-muted); margin-top:2px;">AI runtime: checking...</div>
+                </div>
+            </div>
+            <div class="header-actions">
+                <button class="btn-action" id="btn-upload-loop" type="button">
+                    <i data-lucide="upload"></i> Video
+                </button>
+                <div class="notif-badge-container">
+                    <button class="btn-circle" id="btn-notifications" type="button">
+                        <i data-lucide="bell"></i>
+                    </button>
+                    <span id="notif-count" class="badge-count">0</span>
+                </div>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section id="section-home" class="page-section active">
+                <div class="layout-split">
+                    <!-- TRÁI: CAMERA GRID -->
+                    <div class="layout-left">
+                        <div id="mobile-home-shell" class="mobile-home-shell">
+                            <div id="mobile-hero-camera" class="mobile-hero-camera">
+                                <img id="mobile-hero-remote" class="stream-view hero-live-feed" alt="CAM 01 live feed" style="display:none;">
+                                <video id="mobile-hero-local" class="local-preview" autoplay playsinline muted style="display:none;"></video>
+                                <div id="mobile-hero-remote-label" class="mobile-frame-label" style="display:none;">REMOTE HERO</div>
+                                <div id="mobile-hero-local-label" class="mobile-frame-label mobile-frame-label-local" style="display:none;">LOCAL PREVIEW</div>
+                                <div class="mobile-shell-overlay">
+                                    <span class="mobile-shell-badge">CAM 01 • PHONE AI PRIMARY</span>
+                                    <span id="mobile-shell-state" class="mobile-shell-state">Waiting for stream...</span>
+                                </div>
+                            </div>
+                        <div class="mobile-cam-legend" id="mobile-cam-legend">
+                            <strong>Khung đang xem: CAM 01</strong>
+                            <span id="mobile-cam-legend-text">Đây là khung camera chính cho PHONE và AI realtime.</span>
+                            <small id="mobile-cam-debug" style="color:#94a3b8; font-size:0.72rem;">Hero source: waiting...</small>
+                            <small id="mobile-cam-debug-2" style="color:#64748b; font-size:0.7rem;">remoteLoaded=no | localReady=no | slot=?</small>
+                        </div>
+                        </div>
+                        <div class="grid-controls glass">
+                            <div class="grid-meta-stack">
+                                <div class="grid-meta-row">
+                                <span id="active-cam-label">CAM 01</span>
+                                <span id="primary-cam-badge" class="badge-cam">AI PRIMARY: CAM 01</span>
+                                </div>
+                                <div class="grid-meta-row">
+                                    <span id="primary-cam-summary" class="status-chip">GPU-first • Live pipeline • Demo mode</span>
+                                </div>
+                            </div>
+                            <div class="grid-actions">
+                                <div class="view-switch" role="tablist" aria-label="Chế độ hiển thị camera">
+                                    <button class="view-chip active" id="btn-view-focus" data-view="focus" type="button">Focus</button>
+                                    <button class="view-chip" id="btn-view-wall" data-view="wall" type="button">Wall</button>
+                                </div>
+                                <button id="btn-connect-ws" class="btn-primary-sm" style="animation: pulse-border 2s infinite;">
+                                    <i data-lucide="camera"></i> <span>Phát Live Camera</span>
+                                </button>
+                                <button class="btn-upload-inline" id="btn-upload-video" title="Tải video lên để chạy AI" type="button">
+                                    <i data-lucide="plus-circle"></i>
+                                    <span>Video</span>
+                                </button>
+                                <button class="btn-upload-inline" id="btn-open-stats" type="button">
+                                    <i data-lucide="bar-chart-3"></i>
+                                    <span>Thống kê</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="camera-grid grid-4x3" id="loop-cameras-container">
+                            <!-- CAM 01: REALTIME AI (WEBSOCKET) -->
+                            <div class="camera-card active-ai" id="card-cam-1">
+                                <div class="cam-info-top">
+                                    <span class="cam-tag"><i data-lucide="zap" style="color:var(--primary); width:14px;"></i> CAM 01 - AI REALTIME</span>
+                                    <span class="ai-indicator pulse"></span>
+                                </div>
+                                <div class="stream-container local-stream">
+                                    <video id="local-video" autoplay playsinline muted class="stream-view" style="display:none;"></video>
+                                    <img id="remote-view-1" data-src="/api/video_feed/1" class="stream-view" alt="Camera 01">
+                                    <canvas id="ai-canvas" class="ai-overlay-canvas"></canvas>
+                                </div>
+                            </div>
+                            <!-- Các CAM còn lại (2-12) sẽ được Script tự động tạo vào đây -->
+                        </div>
+                    </div>
+
+                    <!-- PHẢI: DASHBOARD THÔNG BÁO & CẤU HÌNH -->
+                    <div class="layout-right">
+                        <!-- AI Configuration -->
+                        <div class="sidebar-widget glass ai-controls">
+                            <div class="widget-header">
+                                <h3><i data-lucide="sliders"></i> Cấu hình AI</h3>
+                            </div>
+                            <div class="ai-filter-bar">
+                                <label class="chip">
+                                    <input type="checkbox" id="filter-helmet" checked>
+                                    <span><i data-lucide="shield"></i> Mũ</span>
+                                </label>
+                                <label class="chip">
+                                    <input type="checkbox" id="filter-vest" checked>
+                                    <span><i data-lucide="shirt"></i> Áo</span>
+                                </label>
+                                <label class="chip">
+                                    <input type="checkbox" id="filter-sign" checked>
+                                    <span><i data-lucide="octagon"></i> Biển báo</span>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="sidebar-widget glass runtime-widget">
+                            <div class="widget-header">
+                                <h3><i data-lucide="activity"></i> Health & Runtime</h3>
+                            </div>
+                            <div id="runtime-health-grid" class="runtime-health-grid">
+                                <div class="runtime-card">
+                                    <span class="runtime-label">Device</span>
+                                    <strong id="runtime-health-device">Checking...</strong>
+                                </div>
+                                <div class="runtime-card">
+                                    <span class="runtime-label">Warmup</span>
+                                    <strong id="runtime-health-warmup">Pending</strong>
+                                </div>
+                                <div class="runtime-card">
+                                    <span class="runtime-label">Primary</span>
+                                    <strong id="runtime-health-primary">CAM 01</strong>
+                                </div>
+                                <div class="runtime-card">
+                                    <span class="runtime-label">Model</span>
+                                    <strong id="runtime-health-model">PPE</strong>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- System Logs -->
+                        <div class="sidebar-widget glass system-logs">
+                            <div class="widget-header">
+                                <h3><i data-lucide="bell"></i> Thông báo & Vi phạm</h3>
+                            </div>
+                            <div class="mini-logs-container" id="sidebar-logs">
+                                <ul class="sidebar-log-list" id="sidebar-log-list">
+                                    <li class="log-item empty">Hệ thống đang hoạt động ổn định...</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="section-system" class="page-section">
+                <div class="section-header">HỆ THỐNG CAMERA</div>
+                <div id="system-cam-list" class="cam-list-container"></div>
+            </section>
+
+            <section id="section-stats" class="page-section">
+                <div class="section-header">THỐNG KÊ VI PHẠM</div>
+                <div id="dashboard-cards" class="dashboard-cards glass">
+                    <div class="dash-item">
+                        <span class="dash-label">Tổng vi phạm</span>
+                        <strong id="dash-total">0</strong>
+                    </div>
+                    <div class="dash-item">
+                        <span class="dash-label">PPE</span>
+                        <strong id="dash-ppe">0</strong>
+                    </div>
+                </div>
+                <div class="table-wrapper glass">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Thời gian</th>
+                                <th>Camera</th>
+                                <th>Vi phạm</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stats-table-body"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="section-settings" class="page-section">
+                <div class="section-header">CÀI ĐẶT HỆ THỐNG</div>
+                <div class="settings-card glass">
+                    <div class="setting-row">
+                        <div>
+                            <strong>Dark mode</strong>
+                            <p>Bật giao diện tối và lưu sau khi reload.</p>
+                        </div>
+                        <label class="theme-switch">
+                            <input id="theme-toggle" type="checkbox">
+                            <span class="slider"></span>
+                        </label>
+                    </div>
+                    <div class="setting-row">
+                        <div>
+                            <strong>Audio monitor</strong>
+                            <p>Audio cảnh báo chỉ hoạt động sau khi bấm Bật Giám Sát.</p>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div>
+                            <strong>Luồng AI chủ lực</strong>
+                            <p>CAM 01 được khóa cứng làm đường PHONE duy nhất và là camera AI chính của hệ thống demo.</p>
+                            <p id="primary-camera-status" style="margin-top:8px;">AI chủ lực hiện tại: CAM 01 cố định.</p>
+                        </div>
+                    </div>
+                    <div class="setting-row">
+                        <div>
+                            <strong>iPhone Sender</strong>
+                            <p>Dùng chính web này trên điện thoại để đăng nhập và gửi trực tiếp vào CAM 01. Chỉ có duy nhất 1 đường PHONE cho CAM 01.</p>
+                            <div style="display:flex; gap:8px; margin-top:8px; flex-wrap:wrap;">
+                                <input id="sender-device-name" type="text" placeholder="Tên thiết bị (vd: iPhone Cong Truong A)"
+                                    style="padding:8px 10px; border-radius:10px; border:1px solid var(--border-color); min-width:220px; background:var(--card-bg); color:var(--text-main);">
+                                <button id="btn-sender-login" class="btn-upload-inline" type="button">
+                                    <i data-lucide="log-in"></i><span>Đăng nhập CAM01</span>
+                                </button>
+                                <button id="btn-sender-start" class="btn-upload-inline" type="button">
+                                    <i data-lucide="video"></i><span>Bật gửi PHONE</span>
+                                </button>
+                                <button id="btn-sender-stop" class="btn-upload-inline" type="button">
+                                    <i data-lucide="video-off"></i><span>Dừng gửi</span>
+                                </button>
+                            </div>
+                            <p id="sender-status-text" style="margin-top:8px;">Trạng thái PHONE sender CAM 01: chưa đăng nhập.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+    <!-- Mobile Sender Overlay (New Feature) -->
+    <div id="mobile-sender-overlay" class="glass" style="display:none; position:fixed; inset:0; z-index:2000; padding:20px; flex-direction:column; gap:20px; background:var(--bg-dark);">
+        <div style="display:flex; justify-content:space-between; align-items:center;">
+            <h2 style="font-size:1.2rem; color:var(--primary); margin:0;">AI SENDER MODE</h2>
+            <button class="btn-circle" onclick="document.getElementById('mobile-sender-overlay').style.display='none'" style="background:rgba(255,255,255,0.1);">
+                <i data-lucide="x"></i>
+            </button>
+        </div>
+        <div id="mobile-preview-container" style="flex:1; border-radius:20px; overflow:hidden; position:relative; background:#000; border:2px solid var(--primary);">
+            <!-- Video/Canvas will be moved here in sender mode -->
+            <div id="sender-status-badge" style="position:absolute; top:15px; left:15px; z-index:10; background:rgba(0,0,0,0.6); padding:5px 12px; border-radius:20px; font-size:12px; color:#fff; display:flex; align-items:center; gap:6px;">
+                <span class="status-dot"></span> <span id="sender-status-text-overlay">CHỜ KẾT NỐI</span>
+            </div>
+        </div>
+        <div style="display:grid; grid-template-columns:1fr 1fr; gap:15px;">
+            <button id="btn-sender-toggle-large" class="btn-primary-sm" style="height:60px; border-radius:15px; font-weight:800;">
+                <i data-lucide="video"></i> BẮT ĐẦU GỬI
+            </button>
+            <button id="btn-sender-flip" class="btn-primary-sm" style="height:60px; border-radius:15px; background:rgba(255,255,255,0.1);">
+                <i data-lucide="refresh-cw"></i> ĐỔI CAM
+            </button>
+        </div>
+    </div>
+
+    <nav class="bottom-nav glass">
+        <a href="#" class="nav-item active" data-target="home">
+            <i data-lucide="home"></i><span>Trang chủ</span>
+        </a>
+        <a href="#" class="nav-item" data-target="system">
+            <i data-lucide="video"></i><span>Hệ thống</span>
+        </a>
+        <div class="robot-central">
+            <div class="robot-circle" id="ai-status-indicator" onclick="document.getElementById('mobile-sender-overlay').style.display='flex'">
+                <i data-lucide="bot"></i>
+            </div>
+        </div>
+        <a href="#" class="nav-item" data-target="stats">
+            <i data-lucide="bar-chart-3"></i><span>Thống kê</span>
+        </a>
+        <a href="#" class="nav-item" data-target="settings">
+            <i data-lucide="settings"></i><span>Cài đặt</span>
+        </a>
+    </nav>
+    </div>
+
+    <!-- Mobile Floating Controls -->
+    <div class="mobile-fab-container" style="display: none;">
+        <button id="btn-connect-ws-mobile" class="btn-main pulse" onclick="document.getElementById('btn-connect-ws').click()">
+            <i data-lucide="camera"></i> <span>PHÁT LIVE CAMERA</span>
+        </button>
+    </div>
+
+    <input id="video-upload-input" type="file" accept="video/mp4,video/quicktime,video/x-matroska,video/x-msvideo,video/webm,.mp4,.mov,.mkv,.avi,.webm" hidden>
+    <audio id="audio-warning" src="assets/warning.WAV" preload="auto"></audio>
+    <audio id="audio-alarm" src="assets/alarm.WAV" preload="auto"></audio>
+
+    <div id="build-indicator" style="position:fixed; bottom:5px; right:5px; font-size:10px; color:var(--text-muted); opacity:0.8; z-index:9999; background:rgba(0,0,0,0.1); padding:2px 5px; border-radius:4px;">BUILD 15.7 - CACHE RESET</div>
+    <script>lucide.createIcons();</script>
+</body>
+</html>

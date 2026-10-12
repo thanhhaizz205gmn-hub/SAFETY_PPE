@@ -1,0 +1,7 @@
+models/
+temp_videos/
+__pycache__/
+*.db
+*.mp4
+violation_log.txt
+violation_log.csv

@@ -1,0 +1,43 @@
+services:
+  # 1. Dịch vụ AI Safety App
+  utt-safety-app:
+    container_name: utt-safety-container
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: utt-safety-app:latest
+    gpus: all
+    ports:
+      - "5001:5001" # Mở cổng 5001 để bạn vẫn có thể vào bằng localhost:5001
+    environment:
+      - UTT_PREFER_CUDA=1
+      - NVIDIA_VISIBLE_DEVICES=all
+      - NVIDIA_DRIVER_CAPABILITIES=compute,utility
+    volumes:
+      - ./models:/app/models
+      - ./dashboard.html:/app/dashboard.html
+      - ./css:/app/css:ro
+      - ./src:/app/src:ro
+      - ./assets:/app/assets:ro
+      - ./app.py:/app/app.py
+      - ./temp_videos:/app/temp_videos
+    restart: always
+    networks:
+      - safety-net
+
+  # 2. Dịch vụ Cloudflare Tunnel
+  tunnel:
+    container_name: cloudflared-tunnel
+    image: cloudflare/cloudflared:latest
+    restart: always
+    environment:
+      - TUNNEL_TOKEN=${TUNNEL_TOKEN}
+    command: tunnel --no-autoupdate run
+    depends_on:
+      - utt-safety-app
+    networks:
+      - safety-net
+
+networks:
+  safety-net:
+    driver: bridge
