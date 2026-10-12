@@ -21,9 +21,23 @@ data/
 data_filtered/
 runs/
 
-# Large SQLite database files (>50MB)
+# Large SQLite database files & test logs
 *.db
 *.sqlite3
+*.csv
+*.txt
+!requirements.txt
+!README.md
+huongdan.txt
+**/huongdan.txt
+violation_log.*
+**/violation_log.*
+
+# Test scripts & drafts
+test_*.py
+test*.py
+test*.ipynb
+batch_test_*.py
 
 # OS / Editor
 .DS_Store
