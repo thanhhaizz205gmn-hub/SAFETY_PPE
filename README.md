@@ -1,4 +1,4 @@
-# 🛡️ Real-Time AI Safety & PPE Violation Detection System (UTT APP)
+# Real-Time AI Safety & PPE Violation Detection System (UTT APP)
 
 [![Python](https://img.shields.io/badge/Python-3.10-blue?style=for-the-badge&logo=python)](https://python.org)
 [![YOLOv8](https://img.shields.io/badge/Model-YOLOv8%20%7C%20Ultralytics-00FFFF?style=for-the-badge)](https://ultralytics.com)
@@ -9,7 +9,7 @@
 
 ---
 
-## 🌟 Key Features
+## Key Features
 
 1. **PPE Compliance Detection**:
    - Real-time multi-class detection (hard hats, safety vests, boots) with adaptive confidence filtering.
@@ -31,7 +31,7 @@
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Local Environment
 ```bash
@@ -54,7 +54,7 @@ python app.py
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Computer Vision & Deep Learning**: Ultralytics YOLOv8, OpenCV, PyTorch
 - **Audio & Alerting**: Pygame Mixer, Threaded Audio Drivers
@@ -64,7 +64,7 @@ python app.py
 
 ---
 
-## 👤 Author
+## Author
 
 - **Do Thanh Hai** - *Computer Vision & AI Systems Developer*
 - **Institution:** University of Transport Technology (UTT)
